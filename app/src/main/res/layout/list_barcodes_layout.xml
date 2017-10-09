@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:id="@+id/LayCustomer"
+    >
+    <!-- Email label -->
+    <TextView
+        android:id="@+id/TextOriginalSerial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="2dip"
+        android:text="PO-019910"
+        android:textColor="@color/colorKtgLogo"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_marginEnd="8dp" />
+
+
+    <TextView
+        android:id="@+id/TextScannedSerial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:paddingBottom="2dip"
+        android:text="PO-0199178"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+</android.support.constraint.ConstraintLayout>

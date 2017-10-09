@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">EeWh</string>
+    <string name="service_address">http://213.131.45.78:54300/</string>
+</resources>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:id="@+id/LayCustomer">
+
+    <!-- Name Label -->
+    <!-- Email label -->
+    <TextView
+        android:id="@+id/TextItemAndNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:paddingBottom="2dip"
+        android:text="940000 / I42671"
+        android:textColor="@color/colorKtgLogo"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/TextQuantity"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/TextDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="ელექტრო ღუმელი - GORENJE - BO613E01XK"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/TextQuantity"
+        app:layout_constraintTop_toBottomOf="@+id/TextItemAndNo" />
+
+    <TextView
+        android:id="@+id/textManufacturerAndShortDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="GORENJE / BO613E01XK"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/TextDescription"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/TextQuantity"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginLeft="5dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/TextLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="WH-SAM-8"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/textManufacturerAndShortDesc"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toLeftOf="@+id/TextQuantity"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/TextQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="8"
+        android:textSize="35dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:textColor="@color/colorAccent"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp" />
+</android.support.constraint.ConstraintLayout>

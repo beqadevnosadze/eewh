@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ge.ee.eewh.ItemsActivity">
+
+    <TextView
+        android:id="@+id/TextHeadStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="ჩამოსატვირთი"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:id="@+id/LayHeader"
+        app:layout_constraintTop_toBottomOf="@+id/TextHeadStatus"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <!-- Email label -->
+        <TextView
+            android:id="@+id/TextOrderNumberAndDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:paddingBottom="2dip"
+            android:text="PO-019910 / 2017-09-07"
+            android:textColor="@color/colorKtgLogo"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/TextVendor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="დასკვნით შეცვლილი პროდუქცია"
+            android:textSize="13sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextOrderNumberAndDate" />
+
+        <TextView
+            android:id="@+id/textPostDateAndStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017-09-07/ 1"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@+id/TextVendor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="0dp" />
+
+        <TextView
+            android:id="@+id/TextLocationAndUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WH-SAM-8 - EE\RATIANI_G"
+            android:textSize="13sp"
+            app:layout_constraintLeft_toRightOf="@+id/textPostDateAndStatus"
+            android:layout_marginLeft="53dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/TextVendor"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="1.0" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <!-- Editext for Search -->
+    <EditText android:id="@+id/inputSearch"
+        android:layout_width="0dp"
+        android:layout_height="41dp"
+        android:hint="ძებნა"
+        android:inputType="text"
+        android:drawableEnd="@drawable/ic_search_black_24dp"
+
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/LayHeader"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+    <!--android:drawableEnd="@drawable/ic_search_black_24dp"-->
+    <!-- List View -->
+    <ListView
+        android:id="@+id/list_customers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/inputSearch"
+        app:layout_constraintBottom_toTopOf="@+id/SendButton"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="2dp"
+        />
+    <!--app:layout_constraintTop_toBottomOf="@+id/list_customers"-->
+    <Button
+        android:id="@+id/SendButton"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="გაგზავნა"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/bntDownload"
+        android:drawableLeft="@drawable/ic_send"
+        />
+    <!--app:layout_constraintTop_toBottomOf="@+id/list_customers"-->
+    <Button
+        android:id="@+id/bntDownload"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="ჩამოტვირთვა"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/SendButton"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick="DownloadClick"
+        android:drawableLeft="@drawable/ic_download"
+        />
+
+</android.support.constraint.ConstraintLayout>

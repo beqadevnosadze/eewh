@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ge.ee.eewh.LoginActivity"
+    android:background="@color/colorGray"
+    android:orientation="vertical"
+
+    >
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/btn_move_shape_norm"/>
+
+    <View
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/textLabel"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="გაიარეთ ავტორიზაცია"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:weightSum="100">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="80"
+            android:background="@drawable/shape"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/etUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_top_bg"
+                android:drawableLeft="@drawable/user"
+                android:hint="მომხმარებელი"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:padding="10dp"
+                android:text="TEST1"
+                android:textColorHint="#cccccc" />
+
+            <EditText
+                android:id="@+id/etPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_bottom_bg"
+                android:drawableLeft="@drawable/password"
+                android:hint="პაროლი"
+                android:imeOptions="actionSend"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColorHint="#cccccc"
+                android:text="12345"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:weightSum="100"
+        >
+
+        <Button
+            android:id="@+id/btnSingIn"
+            style="@style/DefaultButtonText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="4dp"
+            android:layout_weight="60"
+            android:background="@drawable/button_default_bg"
+            android:onClick="BtnOkClick"
+            android:padding="10dp"
+
+
+            android:text="შესვლა" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center_horizontal"
+        android:weightSum="100"
+        >
+
+        <Button
+            android:id="@+id/btnClose"
+            style="@style/DefaultButtonText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="4dp"
+            android:layout_weight="60"
+            android:background="@drawable/button_close_bg"
+            android:onClick="BtnClosClick"
+            android:padding="10dp"
+            android:text="დახურვა" />
+    </LinearLayout>
+
+
+</android.widget.LinearLayout>
