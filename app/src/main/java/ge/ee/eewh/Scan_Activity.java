@@ -112,6 +112,7 @@ public class Scan_Activity extends Activity {
                                 if(bar.getSerial_No_().equals(scannedBarcode)){
                                     foundItem=bar;
                                     foundItem.setScannedBarcode(scannedBarcode);
+                                    foundItem.setChangedBy(eewhapp.getProfile().getUser_ID());
                                     foundItem.save();
                                     break;
                                 }
@@ -124,6 +125,7 @@ public class Scan_Activity extends Activity {
 
                                     foundItem=bar;
                                     foundItem.setScannedBarcode(scannedBarcode);
+                                    foundItem.setChangedBy(eewhapp.getProfile().getUser_ID());
                                     foundItem.save();
 
                                     break;
@@ -138,6 +140,7 @@ public class Scan_Activity extends Activity {
                                 res.setQuantity(1);
                                 res.setLocation_Code(_line.getLocation_Code());
                                 res.setScannedBarcode(scannedBarcode);
+                                res.setChangedBy(eewhapp.getProfile().getUser_ID());
                                 //todo: set created by here
                                 res.save();
                                 _localitems.add(res);

@@ -108,10 +108,10 @@ public class HeaderListAdapter extends ArrayAdapter<HeaderResult> implements Fil
                         viewName="TextOrderNumberAndDate";
                         valueText=p.getNo_() +" / "+dateAsText;
                         break;
-//                    case "Address":
-//                        viewName="textAddress";
-//                        valueText=p.getAddress();
-//                        break;
+                    case "Buy_from_Vendor_Name":
+                        viewName="TextVendor";
+                        valueText=p.getBuy_from_Vendor_Name();
+                        break;
 //                    case "NumeratorNumber":
 //                        viewName="textNumeratorNumber";
 //                        valueText=p.getNumeratorNumber();
@@ -170,17 +170,23 @@ public class HeaderListAdapter extends ArrayAdapter<HeaderResult> implements Fil
             //ArrayList<CustomerListModel> tempList=new ArrayList<CustomerListModel>();
             FilterStarted=true;
             _filteredItems.clear();
-            Log.d("eewh",prefixString);
+            //Log.d("eewh",prefixString);
+            String prefixInlowCase="";
+
+            if(prefixString!=null){
+                prefixInlowCase=prefixString.toLowerCase();
+            }
+
             for (HeaderResult obj:_originalItems) {
 
                 if(obj.getNo_().contains(prefixString) ){
                     obj.setFilterField("No_");
                     _filteredItems.add(obj);
                 }
-//                else if(obj.getName().contains(prefixString)){
-//                    obj.setFilterField("Name");
-//                    _filteredItems.add(obj);
-//                }
+                else if(obj.getBuy_from_Vendor_Name() != null && obj.getBuy_from_Vendor_Name().contains(prefixString)){
+                    obj.setFilterField("Buy_from_Vendor_Name");
+                    _filteredItems.add(obj);
+                }
 //                else if(obj.getAddress().contains(prefixString)){
 //                    obj.setFilterField("Address");
 //                    _filteredItems.add(obj);

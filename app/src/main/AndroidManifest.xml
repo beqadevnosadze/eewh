@@ -3,25 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ge.ee.eewh">
 
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".eewhapp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:replace="icon"
-        android:name="ge.ee.eewh.eewhapp"
-        android:theme="@android:style/Theme">
+        android:theme="@android:style/Theme"
+        tools:replace="icon">
 
-        <!--sugar orm data-->
-        <meta-data android:name="DATABASE" android:value="eewh_db.db" />
-        <meta-data android:name="VERSION" android:value="3" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="ge.ee.eewh" />
-
+        <!-- sugar orm data -->
+        <meta-data
+            android:name="DATABASE"
+            android:value="eewh_db.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="5" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="ge.ee.eewh" />
 
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -38,7 +44,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Scan_Activity" />
         <activity android:name=".OrdersActivity" />
-        <activity android:name=".ItemsActivity"></activity>
+        <activity android:name=".ItemsActivity" />
+        <activity android:name=".Settings_Activity"></activity>
     </application>
 
 </manifest>

@@ -7,9 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ge.ee.eewh.SugaModels.LoginResult;
 
@@ -54,6 +52,11 @@ public class MainActivity extends Activity {
             return true;
         }
 
+        if (id == R.id.action_settings) {
+            Intent setingact=new Intent(this,Settings_Activity.class);
+            startActivity(setingact);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

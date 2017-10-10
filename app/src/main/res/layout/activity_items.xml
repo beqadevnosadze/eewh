@@ -124,11 +124,12 @@
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="გაგზავნა"
-
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/bntDownload"
         android:drawableLeft="@drawable/ic_send"
+        android:onClick="Upload_Click"
         />
     <!--app:layout_constraintTop_toBottomOf="@+id/list_customers"-->
     <Button
@@ -136,7 +137,6 @@
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="ჩამოტვირთვა"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/SendButton"
         app:layout_constraintRight_toRightOf="parent"

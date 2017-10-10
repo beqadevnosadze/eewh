@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import ge.ee.eewh.Adapters.HeaderListAdapter;
@@ -72,6 +74,9 @@ public class ItemsActivity extends Activity {
                 headertextview.setText("დამუშავების პროცესში");
                 int meterdisColor=getResources().getColor(R.color.colorKtgLogo);
                 headertextview.setTextColor(meterdisColor);
+
+                Button btn_send=(Button)findViewById(R.id.SendButton);
+                btn_send.setEnabled(true);
             }
             else{
                 new AsyncLoad().execute(new String[]{_action,_item.getNo_(),"0"});
@@ -105,6 +110,33 @@ public class ItemsActivity extends Activity {
 
 
         }
+
+    }
+
+    public void Upload_Click(View view){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("დაადასტურეთ");
+        builder.setMessage("აიტვირთება შედეგები და წაიშლება ლოკალური მონაცემები დარწმუნებული ხართ?");
+        builder.setPositiveButton("დიახ", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                new Async_Upload().execute(_item.getNo_());
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("არა", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
 
     }
 
@@ -181,7 +213,76 @@ public class ItemsActivity extends Activity {
         });
     }
 
+    public class Async_Upload extends AsyncTask<String,Void,String> {
 
+        ProgressDialog pd;
+
+        @Override
+        protected void onPreExecute() {
+            pd=new ProgressDialog(ItemsActivity.this);
+            pd.setMessage("მოითმინეთ...");
+            pd.setCancelable(false);
+            pd.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+
+                List<BarcodesResult> barcodes=new ArrayList<>();
+                for (LinesResult line:_localItemsList)
+                {
+                    String query="ITEMNO='"+line.getNo_()+"' and  SOURCEID='"+line.getDocument_No_()+"'";
+                    List<BarcodesResult> ItemBarcodes =BarcodesResult.find(BarcodesResult.class,query);
+                    barcodes.addAll(ItemBarcodes);
+
+                }
+
+                String json_Data=new Gson().toJson(barcodes);
+                HashMap<String, String> postdata=new HashMap<>();
+                postdata.put("data",json_Data);
+                String resp=Web.POST("UploadData",postdata);
+
+
+                boolean tr=resp.equals("\"true\"");
+                if(tr){
+                    for (BarcodesResult bar:barcodes) {
+                        bar.delete();
+                    }
+                }
+                return resp;
+            }
+            catch (RuntimeException ex){
+                Log.v("eeWh",ex.getMessage());
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(String resultList) {
+
+            boolean tr=resultList.equals("\"true\"");
+            if(tr){
+
+                Button btn_send=(Button)findViewById(R.id.SendButton);
+                btn_send.setEnabled(false);
+                _item.delete();
+
+                for (LinesResult res:_localItemsList ) {
+                    res.delete();
+                }
+                MessageBox.Show(ItemsActivity.this,"მოქმედება დასრულდა წარმატებით");
+                finish();
+            }
+            pd.dismiss();
+
+            super.onPostExecute(resultList);
+        }
+
+    }
 
 public class AsyncLoadLocal extends AsyncTask<String,Void,List<LinesResult>> {
 
@@ -280,6 +381,9 @@ public class AsyncLoadLocal extends AsyncTask<String,Void,List<LinesResult>> {
                 headertextview.setText("დამუშავების პროცესში");
                 int meterdisColor=getResources().getColor(R.color.colorKtgLogo);
                 headertextview.setTextColor(meterdisColor);
+
+                Button btn_send=(Button)findViewById(R.id.SendButton);
+                btn_send.setEnabled(false);
             }
 
 

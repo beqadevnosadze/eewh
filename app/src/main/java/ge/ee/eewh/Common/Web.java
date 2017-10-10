@@ -3,6 +3,7 @@ package ge.ee.eewh.Common;
 import com.google.gson.Gson;
 import ge.ee.eewh.R;
 import ge.ee.eewh.SugaModels.LoginResult;
+import ge.ee.eewh.SugaModels.SettingsModel;
 import ge.ee.eewh.eewhapp;
 
 import java.io.BufferedReader;
@@ -16,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -26,19 +28,42 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Web {
 
-    private static String _server= "http://213.131.45.78:54300/";//eewhapp.getAppContext().getString(R.string.service_address);
+    private static String _server= "";//eewhapp.getAppContext().getString(R.string.service_address);
 
     public Web() {
 
     }
 
+    private static void CheckSetting(){
+
+        if(_server==""){
+            List<SettingsModel> dbresult=SettingsModel.listAll(SettingsModel.class);
+            if(dbresult.size()>0){
+                _server=dbresult.get(0).getServerUrl();
+            }
+            else{
+                SettingsModel ob=new SettingsModel();
+                ob.setServerUrl("http://213.131.45.78:54300/");
+                ob.save();
+                _server=ob.getServerUrl();
+            }
+        }
+    }
+
+    public static void ResetSetting(){
+        _server="";
+    }
+
     public static String POST(String requestURL,
                               HashMap<String, String> postDataParams) {
+        //http://213.131.45.78:54300/
+        CheckSetting();
+
 
         URL url;
         String response = "";
         try {
-            url = new URL(requestURL);
+            url = new URL(_server+requestURL);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000);
@@ -90,7 +115,7 @@ public class Web {
 
     public static String GET(String requestURL) {
 
-
+        CheckSetting();
         HashMap<String, String> postDataParams= new HashMap<>();
 
         URL url;

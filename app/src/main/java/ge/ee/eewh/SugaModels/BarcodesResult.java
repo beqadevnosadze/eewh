@@ -18,6 +18,15 @@ public class BarcodesResult extends SugarRecord<BarcodesResult> {
     public String Lot_No_;
     public String Created_By;
     public String ScannedBarcode;
+    public String changedBy;
+
+    public String getChangedBy() {
+        return changedBy;
+    }
+
+    public void setChangedBy(String changedBy) {
+        this.changedBy = changedBy;
+    }
 
     public String getScannedBarcode() {
         return

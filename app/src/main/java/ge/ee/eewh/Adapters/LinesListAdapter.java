@@ -103,10 +103,10 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
                         viewName="TextItemAndNo";
                         valueText=p.getLine_No_() +" / "+p.getNo_();
                         break;
-//                    case "Address":
-//                        viewName="textAddress";
-//                        valueText=p.getAddress();
-//                        break;
+                    case "Full_Description":
+                        viewName="TextDescription";
+                        valueText=p.getFull_Description();
+                        break;
 //                    case "NumeratorNumber":
 //                        viewName="textNumeratorNumber";
 //                        valueText=p.getNumeratorNumber();
@@ -176,10 +176,10 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
                     obj.setFilterField("Line_No_");
                     _filteredItems.add(obj);
                 }
-//                else if(obj.getAddress().contains(prefixString)){
-//                    obj.setFilterField("Address");
-//                    _filteredItems.add(obj);
-//                }
+                else if(obj.getFull_Description()!=null && obj.getFull_Description().contains(prefixString)){
+                    obj.setFilterField("Full_Description");
+                    _filteredItems.add(obj);
+                }
 //                else if(obj.getNumeratorNumber().contains(prefixString)){
 //                    obj.setFilterField("NumeratorNumber");
 //                    _filteredItems.add(obj);

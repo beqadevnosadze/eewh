@@ -61,7 +61,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:padding="10dp"
-                android:text="TEST1"
+                android:text=""
                 android:textColorHint="#cccccc" />
 
             <EditText
@@ -76,7 +76,7 @@
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColorHint="#cccccc"
-                android:text="12345"
+                android:text=""
                 />
         </LinearLayout>
     </LinearLayout>
