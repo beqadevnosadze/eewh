@@ -69,7 +69,8 @@ public class MainActivity extends Activity {
         {
             case R.id.btn_sale://გაყიდვა მაღაზია
                 action="sale";
-                break;
+                return;
+//                break;
             case R.id.btn_purchase://შესყიდვა
                 action="Purchase";
                 break;
@@ -79,13 +80,12 @@ public class MainActivity extends Activity {
             case R.id.btn_sale_dealer://გაყიდვა დილერი
                 action="sale_dealer";
                 break;
-            case R.id.btn_return_sale://გაყიდვის უკან დაბრუნება
-                action="return_sale";
-                break;
             case R.id.btn_PdaPurchase_return://შესყიდვის უკან დაბრუნება
                 action="Purchase_return";
                 break;
-
+            case R.id.btn_return_sale://გაყიდვის უკან დაბრუნება
+                action="return_sale";
+                break;
         }
 
         Button bu=(Button)vi;

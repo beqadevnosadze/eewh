@@ -383,7 +383,7 @@ public class AsyncLoadLocal extends AsyncTask<String,Void,List<LinesResult>> {
                 headertextview.setTextColor(meterdisColor);
 
                 Button btn_send=(Button)findViewById(R.id.SendButton);
-                btn_send.setEnabled(false);
+                btn_send.setEnabled(true);
             }
 
 

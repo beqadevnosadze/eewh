@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="datalogic">
+    <CLASSES>
+      <root url="jar://E:/andr/sdk/add-ons/addon-datalogic-sdk-v1-19-datalogic-19/libs/datalogic.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
