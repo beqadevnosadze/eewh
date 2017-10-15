@@ -2,13 +2,11 @@ package ge.ee.eewh.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,32 +15,28 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ge.ee.eewh.R;
-import ge.ee.eewh.SugaModels.HeaderResult;
-import ge.ee.eewh.SugaModels.LinesResult;
+import ge.ee.eewh.SugaModels.BarcodesResult;
+import ge.ee.eewh.SugaModels.SaleTransferBarcodes;
 
 /**
  * Created by beka-work on 30.05.2017.
  */
 
-public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filterable {
+public class SaleBarcodesListAdapter extends ArrayAdapter<SaleTransferBarcodes> implements Filterable {
 
-    List<LinesResult> _originalItems;
-    List<LinesResult> _filteredItems;
+    List<SaleTransferBarcodes> _originalItems;
+    List<SaleTransferBarcodes> _filteredItems;
     String _filterString="";
-    int _blueColor=0;
 
-    public LinesListAdapter(Context context, int resource, List<LinesResult> items) {
+
+    public SaleBarcodesListAdapter(Context context, int resource, List<SaleTransferBarcodes> items) {
         super(context, resource, items);
         _originalItems=new ArrayList<>(items);;
         _filteredItems=items;
-        _blueColor=context.getResources().getColor(R.color.colorKtgLogo);
     }
 
     final BackgroundColorSpan fcs = new BackgroundColorSpan(Color.YELLOW);
@@ -55,62 +49,48 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.list_item_layout, null);
+            v = vi.inflate(R.layout.list_barcodes_layout, null);
         }
 
-        LinesResult p = _filteredItems.get(position);
+        SaleTransferBarcodes p = _filteredItems.get(position);
 
         if (p != null) {
-            TextView TextItemAndNo = (TextView) v.findViewById(R.id.TextItemAndNo);
-            TextView TextDescription = (TextView) v.findViewById(R.id.TextDescription);
-            TextView textManufacturerAndShortDesc = (TextView) v.findViewById(R.id.textManufacturerAndShortDesc);
-            TextView TextLocation = (TextView) v.findViewById(R.id.TextLocation);
-            TextView TextQuantity = (TextView) v.findViewById(R.id.TextQuantity);
+            TextView TextOriginalSerial = (TextView) v.findViewById(R.id.TextOriginalSerial);
+            TextView TextScannedSerial = (TextView) v.findViewById(R.id.TextScannedSerial);
 
-            ConstraintLayout fullLayout = (ConstraintLayout) v.findViewById(R.id.LayCustomer);
 
-            if (TextItemAndNo != null) {
-                TextItemAndNo.setText(p.getLine_No_() +" / "+p.getNo_());
+
+            //ConstraintLayout fullLayout = (ConstraintLayout) v.findViewById(R.id.LayCustomer);
+
+            if (TextOriginalSerial != null) {
+                TextOriginalSerial.setText(p.getSerial_No_());
             }
-            if (TextDescription != null) {
-                TextDescription.setText(p.getFull_Description());
-            }
-            if (textManufacturerAndShortDesc != null) {
-                textManufacturerAndShortDesc.setText(p.getManufacturer_Code()+" / "+p.getDescription());
-            }
-            if (TextLocation != null) {
-                TextLocation.setText(p.getLocation_Code());
+            if (TextScannedSerial != null) {
+                TextScannedSerial.setText(p.getScannedBarcode());
             }
 
-            if (TextQuantity != null) {
-                String quantity=String.format("%.0f",p.getQuantity());
-                TextQuantity.setText(quantity);
-
-//                if((float)p.getScannedQuantity()==p.getQuantity()){
-//                    TextQuantity.setTextColor(_blueColor);
-//                }
-            }
 //
 //            if (fullLayout != null ) {
 //                fullLayout.setBackgroundColor(p.getStatusColor());
 //            }
 
-            if(_filterString.length() > 0 && p.getFilterField() != null){
+            String filterField=p.getFilterField();
+            if(_filterString.length() > 0 && filterField != null){
                 if(convertView==null) return v;
                 Context context=convertView.getContext();
                 if(context==null) return v;
 
                 String viewName="";
                 String valueText="";
-                switch (p.getFilterField()){
-                    case "Line_No_":
-                    case "No_":
-                        viewName="TextItemAndNo";
-                        valueText=p.getLine_No_() +" / "+p.getNo_();
+
+                switch (filterField){
+                    case "Serial_No_":
+                        viewName="TextOriginalSerial";
+                        valueText=p.getSerial_No_();
                         break;
-                    case "Full_Description":
-                        viewName="TextDescription";
-                        valueText=p.getFull_Description();
+                    case "ScannedBarcode":
+                        viewName="TextScannedSerial";
+                        valueText=p.getScannedBarcode();
                         break;
 //                    case "NumeratorNumber":
 //                        viewName="textNumeratorNumber";
@@ -170,21 +150,22 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
             //ArrayList<CustomerListModel> tempList=new ArrayList<CustomerListModel>();
             FilterStarted=true;
             _filteredItems.clear();
-            Log.d("eewh",prefixString);
-            for (LinesResult obj:_originalItems) {
+            //Log.d("eewh",prefixString);
+            //Log.v("eewhfilter2",String.valueOf(_originalItems.size()));
+            for (SaleTransferBarcodes obj:_originalItems) {
 
-                if(obj.getNo_().contains(prefixString) ){
-                    obj.setFilterField("No_");
+                if(obj.getSerial_No_().contains(prefixString) ){
+                    obj.setFilterField("Serial_No_");
                     _filteredItems.add(obj);
                 }
-                else if(String.valueOf(obj.getLine_No_()).contains(prefixString)){
-                    obj.setFilterField("Line_No_");
+                else if(obj.getScannedBarcode()!=null && obj.getScannedBarcode().contains(prefixString)){
+                    obj.setFilterField("ScannedBarcode");
                     _filteredItems.add(obj);
                 }
-                else if(obj.getFull_Description()!=null && obj.getFull_Description().contains(prefixString)){
-                    obj.setFilterField("Full_Description");
-                    _filteredItems.add(obj);
-                }
+//                else if(obj.getAddress().contains(prefixString)){
+//                    obj.setFilterField("Address");
+//                    _filteredItems.add(obj);
+//                }
 //                else if(obj.getNumeratorNumber().contains(prefixString)){
 //                    obj.setFilterField("NumeratorNumber");
 //                    _filteredItems.add(obj);
@@ -195,6 +176,7 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
             filterResults.count = _filteredItems.size();
             FilterStarted=false;
             _filterString=prefixString;
+            //Log.v("eewhfilter",String.valueOf(filterResults.count));
             return filterResults;
         }
 

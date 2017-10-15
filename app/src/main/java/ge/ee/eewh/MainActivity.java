@@ -68,7 +68,8 @@ public class MainActivity extends Activity {
         switch (vi.getId())
         {
             case R.id.btn_sale://გაყიდვა მაღაზია
-                action="sale";
+                Intent saleIntent=new Intent(this,Items_Sale_Activity.class);
+                startActivity(saleIntent);
                 return;
 //                break;
             case R.id.btn_purchase://შესყიდვა

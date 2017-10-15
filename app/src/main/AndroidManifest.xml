@@ -21,7 +21,7 @@
             android:value="eewh_db.db" />
         <meta-data
             android:name="VERSION"
-            android:value="5" />
+            android:value="14" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -46,6 +46,8 @@
         <activity android:name=".OrdersActivity" />
         <activity android:name=".ItemsActivity" />
         <activity android:name=".Settings_Activity" />
+        <activity android:name=".Items_Sale_Activity" />
+        <activity android:name=".Scan_Sale_Activity" />
     </application>
 
 </manifest>

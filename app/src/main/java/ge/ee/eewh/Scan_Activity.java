@@ -141,6 +141,14 @@ public class Scan_Activity extends Activity {
                                 res.setLocation_Code(_line.getLocation_Code());
                                 res.setScannedBarcode(scannedBarcode);
                                 res.setChangedBy(eewhapp.getProfile().getUser_ID());
+
+                                if(_localitems.size()>0){
+                                    BarcodesResult locItem=_localitems.get(0);
+                                    res.setPositive(locItem.getPositive());
+                                    res.setSourceTypeID(locItem.getSourceTypeID());
+                                }
+
+
                                 //todo: set created by here
                                 res.save();
                                 _localitems.add(res);

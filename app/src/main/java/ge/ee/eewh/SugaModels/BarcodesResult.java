@@ -19,6 +19,24 @@ public class BarcodesResult extends SugarRecord<BarcodesResult> {
     public String Created_By;
     public String ScannedBarcode;
     public String changedBy;
+    public int Positive;
+    public int SourceTypeID;
+
+    public int getSourceTypeID() {
+        return SourceTypeID;
+    }
+
+    public void setSourceTypeID(int sourceTypeID) {
+        SourceTypeID = sourceTypeID;
+    }
+
+    public int getPositive() {
+        return Positive;
+    }
+
+    public void setPositive(int positive) {
+        Positive = positive;
+    }
 
     public String getChangedBy() {
         return changedBy;

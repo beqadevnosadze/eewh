@@ -17,30 +17,27 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ge.ee.eewh.R;
-import ge.ee.eewh.SugaModels.HeaderResult;
 import ge.ee.eewh.SugaModels.LinesResult;
+import ge.ee.eewh.SugaModels.SaleTransferHeaderResult;
 
 /**
  * Created by beka-work on 30.05.2017.
  */
 
-public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filterable {
+public class SaleItemsAdapter extends ArrayAdapter<SaleTransferHeaderResult> implements Filterable {
 
-    List<LinesResult> _originalItems;
-    List<LinesResult> _filteredItems;
+    List<SaleTransferHeaderResult> _originalItems;
+    List<SaleTransferHeaderResult> _filteredItems;
     String _filterString="";
     int _blueColor=0;
 
-    public LinesListAdapter(Context context, int resource, List<LinesResult> items) {
+    public SaleItemsAdapter(Context context, int resource, List<SaleTransferHeaderResult> items) {
         super(context, resource, items);
-        _originalItems=new ArrayList<>(items);;
+        _originalItems=new ArrayList<>(items);
         _filteredItems=items;
         _blueColor=context.getResources().getColor(R.color.colorKtgLogo);
     }
@@ -58,7 +55,7 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
             v = vi.inflate(R.layout.list_item_layout, null);
         }
 
-        LinesResult p = _filteredItems.get(position);
+        SaleTransferHeaderResult p = _filteredItems.get(position);
 
         if (p != null) {
             TextView TextItemAndNo = (TextView) v.findViewById(R.id.TextItemAndNo);
@@ -67,28 +64,27 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
             TextView TextLocation = (TextView) v.findViewById(R.id.TextLocation);
             TextView TextQuantity = (TextView) v.findViewById(R.id.TextQuantity);
 
-            ConstraintLayout fullLayout = (ConstraintLayout) v.findViewById(R.id.LayCustomer);
+            //ConstraintLayout fullLayout = (ConstraintLayout) v.findViewById(R.id.LayCustomer);
 
             if (TextItemAndNo != null) {
-                TextItemAndNo.setText(p.getLine_No_() +" / "+p.getNo_());
+                TextItemAndNo.setText(p.getItem_No_());
             }
             if (TextDescription != null) {
-                TextDescription.setText(p.getFull_Description());
+                TextDescription.setText(p.getManufacturer_Code());
             }
             if (textManufacturerAndShortDesc != null) {
-                textManufacturerAndShortDesc.setText(p.getManufacturer_Code()+" / "+p.getDescription());
+                textManufacturerAndShortDesc.setText(p.getDescription());
             }
             if (TextLocation != null) {
                 TextLocation.setText(p.getLocation_Code());
             }
-
             if (TextQuantity != null) {
-                String quantity=String.format("%.0f",p.getQuantity());
-                TextQuantity.setText(quantity);
+                //String quantity=String.format("%.0f",p.getQuantity());
+                TextQuantity.setText(p.getSannedQuantity()+"/"+String.valueOf(p.getQuantity()));
+                if(p.getSannedQuantity()==Integer.valueOf(p.getQuantity())){
 
-//                if((float)p.getScannedQuantity()==p.getQuantity()){
-//                    TextQuantity.setTextColor(_blueColor);
-//                }
+                    TextQuantity.setTextColor(_blueColor);
+                }
             }
 //
 //            if (fullLayout != null ) {
@@ -102,15 +98,19 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
 
                 String viewName="";
                 String valueText="";
-                switch (p.getFilterField()){
-                    case "Line_No_":
-                    case "No_":
+                String filterField=p.getFilterField();
+                switch (filterField){
+                    case "Item_No_":
                         viewName="TextItemAndNo";
-                        valueText=p.getLine_No_() +" / "+p.getNo_();
+                        valueText=p.getItem_No_();
+                        break;
+                    case "Description":
+                        viewName="textManufacturerAndShortDesc";
+                        valueText=p.getDescription();
                         break;
                     case "Full_Description":
                         viewName="TextDescription";
-                        valueText=p.getFull_Description();
+//                        valueText=p.getFull_Description();
                         break;
 //                    case "NumeratorNumber":
 //                        viewName="textNumeratorNumber";
@@ -165,30 +165,31 @@ public class LinesListAdapter extends ArrayAdapter<LinesResult> implements Filte
             if(constraint==null){
                 return new FilterResults();
             }
-            String prefixString = constraint.toString();//.toLowerCase()
+            String prefixString = constraint.toString();//
             FilterResults filterResults = new FilterResults();
             //ArrayList<CustomerListModel> tempList=new ArrayList<CustomerListModel>();
             FilterStarted=true;
             _filteredItems.clear();
             Log.d("eewh",prefixString);
-            for (LinesResult obj:_originalItems) {
+            if(prefixString!=null && prefixString!="") {
+                for (SaleTransferHeaderResult obj : _originalItems) {
 
-                if(obj.getNo_().contains(prefixString) ){
-                    obj.setFilterField("No_");
-                    _filteredItems.add(obj);
-                }
-                else if(String.valueOf(obj.getLine_No_()).contains(prefixString)){
-                    obj.setFilterField("Line_No_");
-                    _filteredItems.add(obj);
-                }
-                else if(obj.getFull_Description()!=null && obj.getFull_Description().contains(prefixString)){
-                    obj.setFilterField("Full_Description");
-                    _filteredItems.add(obj);
-                }
+                    if (obj.getItem_No_() != null && obj.getItem_No_().contains(prefixString)) {
+                        obj.setFilterField("Item_No_");
+                        _filteredItems.add(obj);
+                    } else if (String.valueOf(obj.getDescription()).contains(prefixString)) {
+                        obj.setFilterField("Description");
+                        _filteredItems.add(obj);
+                    }
+//                else if(obj.getFull_Description()!=null && obj.getFull_Description().contains(prefixString)){
+//                    obj.setFilterField("Full_Description");
+//                    _filteredItems.add(obj);
+//                }
 //                else if(obj.getNumeratorNumber().contains(prefixString)){
 //                    obj.setFilterField("NumeratorNumber");
 //                    _filteredItems.add(obj);
 //                }
+                }
             }
 
             filterResults.values = _filteredItems;
