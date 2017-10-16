@@ -25,6 +25,7 @@ import com.datalogic.decode.DecodeException;
 import com.datalogic.decode.DecodeResult;
 import com.datalogic.decode.PropertyID;
 import com.datalogic.decode.ReadListener;
+import com.datalogic.decode.configuration.ScannerProperties;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -51,7 +52,7 @@ public class Items_Sale_Activity extends Activity {
     TextView mBarcodeText;
 
     ReadListener _listener;
-
+    ScannerProperties configuration = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,9 @@ public class Items_Sale_Activity extends Activity {
             //turn on scanner
             if (decoder == null) {
                 decoder = new BarcodeManager();
+                configuration = ScannerProperties.edit(decoder);
+                configuration.keyboardWedge.enable.set(false);
+                configuration.store(decoder, true);
                 //turn on ean checksum digit
                 decoder.setPropertyInts(new int[]{PropertyID.EAN13_SEND_CHECK}, new int[]{1});
                 decoder.setPropertyInts(new int[]{PropertyID.EAN8_SEND_CHECK}, new int[]{1});
@@ -116,7 +120,7 @@ public class Items_Sale_Activity extends Activity {
             e.printStackTrace();
         }
 
-        new AsyncGetLocal().execute("");
+//        new AsyncGetLocal().execute("");
     }
 
 
@@ -133,6 +137,10 @@ public class Items_Sale_Activity extends Activity {
 
         super.onResume();
         if(decoder != null && _listener!=null){
+            if(configuration!=null){
+                configuration.keyboardWedge.enable.set(false);
+                configuration.store(decoder, true);
+            }
             decoder.removeReadListener(_listener);
             decoder.addReadListener(_listener);
         }
@@ -143,6 +151,10 @@ public class Items_Sale_Activity extends Activity {
     @Override
     protected void onDestroy() {
         if(decoder!=null){
+            if(configuration!=null){
+                configuration.keyboardWedge.enable.set(true);
+                configuration.store(decoder, true);
+            }
             decoder.removeReadListener(_listener);
         }
         super.onDestroy();
@@ -192,6 +204,7 @@ public class Items_Sale_Activity extends Activity {
             };
             searchField.addTextChangedListener(_wacher);
         }
+
     }
 
     public void SaveButton_click(View view){
@@ -340,8 +353,6 @@ public class Items_Sale_Activity extends Activity {
         @Override
         protected List<SaleTransferHeaderResult> doInBackground(String... params) {
             try {
-
-
                 //get from web
                 Type tp=new TypeToken<ArrayList<SaleTransferHeaderResult>>(){}.getType();
                 List<SaleTransferHeaderResult> results=Web.GetToObjectList("GetSale?recno="+params[0],tp);
@@ -380,11 +391,16 @@ public class Items_Sale_Activity extends Activity {
             TextView headerText=(TextView)findViewById(R.id.TextHeadStatus);
             if(resultList.size()==0){
                 headerText.setText("დაასკანერეთ შტრიხკოდი");
+                SaleTransferBarcodes.deleteAll(SaleTransferBarcodes.class);
+                SaleTransferHeaderResult.deleteAll(SaleTransferHeaderResult.class);
                 MessageBox.Show(Items_Sale_Activity.this,"არაფერი არ მოიძებნა");
-                return;
             }
-            headerText.setText(resultList.get(0).getReceipt_No_());
+            else{
+                headerText.setText(resultList.get(0).getReceipt_No_());
+            }
+
             SetListItems(resultList);
+            CheckIfUploadPossiable();
             pd.dismiss();
         }
     }
@@ -404,7 +420,9 @@ public class Items_Sale_Activity extends Activity {
                 scannedAll=false;
             }
         }
-
+        if(h_items.size()==0){
+            scannedAll=false;
+        }
         Button btn=(Button)findViewById(R.id.SendButton);
 
         btn.setEnabled(scannedAll);

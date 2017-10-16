@@ -24,6 +24,7 @@ import com.datalogic.decode.DecodeException;
 import com.datalogic.decode.DecodeResult;
 import com.datalogic.decode.PropertyID;
 import com.datalogic.decode.ReadListener;
+import com.datalogic.decode.configuration.ScannerProperties;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orm.SugarRecord;
@@ -49,6 +50,7 @@ public class Scan_Activity extends Activity {
     String _action="";
     ReadListener _listener;
     List<BarcodesResult> _localitems=new ArrayList<>();
+    ScannerProperties configuration = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,9 @@ public class Scan_Activity extends Activity {
             //turn on scanner
                 if (decoder==null){
                     decoder = new BarcodeManager();
+                    configuration=ScannerProperties.edit(decoder);
+                    configuration.keyboardWedge.enable.set(false);
+                    configuration.store(decoder, true);
                     //turn on ean checksum digit
                     decoder.setPropertyInts(new int[]{PropertyID.EAN13_SEND_CHECK},new int[]{1});
                     decoder.setPropertyInts(new int[]{PropertyID.EAN8_SEND_CHECK},new int[]{1});
@@ -207,6 +212,10 @@ public class Scan_Activity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if(configuration!=null){
+            configuration.keyboardWedge.enable.set(true);
+            configuration.store(decoder, true);
+        }
         if(decoder!=null){
             decoder.removeReadListener(_listener);
         }

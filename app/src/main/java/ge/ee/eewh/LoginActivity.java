@@ -2,6 +2,7 @@ package ge.ee.eewh;
 
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Intent;
 
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -61,19 +64,35 @@ public class LoginActivity extends Activity {
         new AsyncTryUpdate().execute();
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_Exit) {
+            System.exit(0);
+            return true;
+        }
+
+        if (id == R.id.action_settings) {
+            Intent setingact=new Intent(this,Settings_Activity.class);
+            startActivity(setingact);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public class AsyncTryUpdate extends AsyncTask<Void,Void,String> {
-
-        ProgressDialog pd;
-
-        @Override
-        protected void onPreExecute() {
-            pd=new ProgressDialog(LoginActivity.this);
-            pd.setMessage("მოითმინეთ...");
-            pd.setCancelable(false);
-            pd.show();
-            super.onPreExecute();
-        }
 
         @Override
         protected String doInBackground(Void... params) {
@@ -109,14 +128,13 @@ public class LoginActivity extends Activity {
         @Override
         protected void onPostExecute(String apk_path) {
             super.onPostExecute(apk_path);
-            pd.dismiss();
 
             if(apk_path != null){
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.fromFile(new File(apk_path)), "application/vnd.android.package-archive");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+                //System.exit(1);
             }
         }
 

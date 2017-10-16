@@ -24,8 +24,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile files('C:\\Users\\beka-work\\AppData\\Local\\Android\\Sdk\\add-ons\\addon-datalogic-sdk-v1-19-datalogic-19\\libs\\datalogic.jar')
-    //compile files('E:\\andr\\sdk\\add-ons\\addon-datalogic-sdk-v1-19-datalogic-19\\libs\\datalogic.jar')
+    //compile files('C:\\Users\\beka-work\\AppData\\Local\\Android\\Sdk\\add-ons\\addon-datalogic-sdk-v1-19-datalogic-19\\libs\\datalogic.jar')
+    compile files('E:\\andr\\sdk\\add-ons\\addon-datalogic-sdk-v1-19-datalogic-19\\libs\\datalogic.jar')
 
     //test Compile 'junit:junit:4.12'
     compile 'com.github.satyan:sugar:1.3'
