@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="datalogic">
     <CLASSES>
-      <root url="jar://E:/andr/sdk/add-ons/addon-datalogic-sdk-v1-19-datalogic-19/libs/datalogic.jar!/" />
+      <root url="jar://$USER_HOME$/AppData/Local/Android/Sdk/add-ons/addon-datalogic-sdk-v1-19-datalogic-19/libs/datalogic.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

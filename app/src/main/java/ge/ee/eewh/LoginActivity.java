@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,6 +25,7 @@ import ge.ee.eewh.SugaModels.LoginResult;
 import com.google.gson.reflect.TypeToken;
 
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +58,69 @@ public class LoginActivity extends Activity {
 
 
         new AsyncLocalDb().execute();
-
+        new AsyncTryUpdate().execute();
 
     }
 
+    public class AsyncTryUpdate extends AsyncTask<Void,Void,String> {
+
+        ProgressDialog pd;
+
+        @Override
+        protected void onPreExecute() {
+            pd=new ProgressDialog(LoginActivity.this);
+            pd.setMessage("მოითმინეთ...");
+            pd.setCancelable(false);
+            pd.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                int versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+                if(versionName !=0){
+                    UpdateModel upd=Web.GetToObject("CheckUpdate",UpdateModel.class);
+                    if(upd != null)
+                    {
+                        if(versionName < Integer.valueOf(upd.version)){
+                            //download update here
+                            String updateapkUrl=Web.get_server()+"apk/"+upd.version+".apk";
+
+                            String path= Environment.getExternalStorageDirectory() + "/download/";
+                            String fileName=upd.version+".apk";
+
+                            if(Web.DownloadFile(updateapkUrl,path,fileName)){
+                                //start install
+                                return path+fileName;
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex){
+                Log.v("eewh",ex.getMessage());
+            }
+//            return null;
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String apk_path) {
+            super.onPostExecute(apk_path);
+            pd.dismiss();
+
+            if(apk_path != null){
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.fromFile(new File(apk_path)), "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        }
+
+    }
 
     public class AsyncLocalDb extends AsyncTask<Void,Void,Void> {
 
@@ -81,6 +143,7 @@ public class LoginActivity extends Activity {
                 if(!list.isEmpty()){
                     eewhapp.setProfile(list.get(0));
                     StartMainActivity();
+
                 }
             }
             catch (RuntimeException ex){
@@ -92,6 +155,7 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
             super.onPostExecute(aVoid);
             pd.dismiss();
         }

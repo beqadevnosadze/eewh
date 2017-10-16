@@ -1,5 +1,8 @@
 package ge.ee.eewh.Common;
 
+import android.os.Environment;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import ge.ee.eewh.R;
 import ge.ee.eewh.SugaModels.LoginResult;
@@ -8,6 +11,9 @@ import ge.ee.eewh.eewhapp;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -30,10 +36,67 @@ public class Web {
 
     private static String _server= "";//eewhapp.getAppContext().getString(R.string.service_address);
 
+    public static String get_server() {
+        return _server;
+    }
+
+
     public Web() {
 
     }
 
+    public static boolean DownloadFile(String urlstring,String savePath,String filename){
+
+        try {
+            URL url = new URL(urlstring);
+            HttpURLConnection c = (HttpURLConnection) url.openConnection();
+            c.setReadTimeout(15000);
+            c.setConnectTimeout(15000);
+            //conn.setRequestMethod("GET");
+            c.setDoInput(true);
+//            c.setRequestProperty("User-Agent","Mozilla/5.0 ( compatible ) ");
+//            c.setRequestProperty("Accept","*/*");
+//            c.setReadTimeout(15000);
+//            c.setConnectTimeout(15000);
+//            c.setRequestMethod("GET");
+//            c.setDoInput(true);
+//            c.setDoOutput(true);
+
+            //conn.setRequestMethod("GET");
+
+
+            c.connect();
+
+            String PATH = savePath;;
+            File file = new File(PATH);
+            file.mkdirs();
+
+            if(file.exists()){
+                file.delete();
+            }
+
+
+            File outputFile = new File(file, filename);
+            FileOutputStream fos = new FileOutputStream(outputFile);
+            int status = c.getResponseCode();
+            InputStream is = c.getInputStream();
+
+            byte[] buffer = new byte[1024];
+            int len1 = 0;
+            while ((len1 = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, len1);
+            }
+            fos.close();
+            is.close();//till here, it works fine - .apk is download to my sdcard in download file
+            return true;
+        }
+        catch (Exception ex){
+            String message=ex.getMessage();
+            Log.v("eewh",message);
+            return false;
+        }
+
+    }
     private static void CheckSetting(){
 
         if(_server==""){
